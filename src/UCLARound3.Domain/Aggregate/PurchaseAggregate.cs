@@ -15,7 +15,6 @@ namespace UCLARound3.Domain.Aggregate
             Purchases = purchases.ToArray();
         }
 
-        public string GetSummary() => throw new NotImplementedException();
         public List<string> GetUniqueIds() => throw new NotImplementedException();
         public BarcodeValue GetMostCommonProductType() => throw new NotImplementedException();
         public List<string> GetProductSubTypes() => throw new NotImplementedException();
