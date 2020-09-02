@@ -1,0 +1,55 @@
+@startuml
+
+'01232020Jamie
+'BEVGTTKYGDGJHGTFBNGDVZJGDIPXVS
+'CANFDNSKAVOUXSCGSYBHQYHNMDQOBL
+'FRZNQQNPSESCHIMIXOUHNAWLXRZEPT
+'BEVGZYUFGNIHDCZIPWLZJLPDSGNEAH
+
+class ProductKeys {
+    ProductType[] Keys
+    --
+    +AddKey(ProductType productType)
+}
+
+class PurchaseEntity {
+    char[8] Timestamp
+    string Customer
+    BarcodeValue[] Barcodes
+}
+note left: Timestamp is in the format MMDDYYYY
+
+class PurchaseAggregate {
+    PurchaseEntity[] Purchases
+    --
+    +string GetSummary()
+    +UniqueId[] GetUniqueIds()
+    +BarcodeValue GetMostCommonProductType()
+    +ProductSubType[] GetProductSubTypes(ProductType productType)
+}
+
+class "char[4]" as char4
+class "char[6]" as char6
+class "char[20]" as char20
+
+ProductType <|-- char4
+ProductSubType <|-- char6
+UniqueId <|-- char20
+
+class BarcodeValue {
+    ProductType Type
+    ProductSubType Subtype
+    UniqueId Id
+}
+
+BarcodeValue *-- ProductType : has
+BarcodeValue *-- ProductSubType : has
+BarcodeValue *-- UniqueId : has
+
+ProductKeys *-- ProductType : has many
+
+PurchaseEntity *- BarcodeValue : has many
+
+PurchaseAggregate *-- PurchaseEntity : has many
+
+@enduml
