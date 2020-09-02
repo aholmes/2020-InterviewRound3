@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29911.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCLARound3", "UCLARound3\UCLARound3.csproj", "{1D82FE7F-833D-42BA-AAA8-C9BB32839ED7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D82FE7F-833D-42BA-AAA8-C9BB32839ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D82FE7F-833D-42BA-AAA8-C9BB32839ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D82FE7F-833D-42BA-AAA8-C9BB32839ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D82FE7F-833D-42BA-AAA8-C9BB32839ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3420341-0212-407A-9F83-4BC7C6B43B96}
+	EndGlobalSection
+EndGlobal
