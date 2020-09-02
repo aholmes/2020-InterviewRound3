@@ -16,6 +16,8 @@ class PurchaseEntity {
     DateTime Timestamp
     string Customer
     BarcodeValue[] Barcodes
+    --
+    {static} +Task<PurchaseEntity> CreateFromStream(Stream stream) <<async>>
 }
 note left
 Timestamp is in the format MMDDYYYY
@@ -26,7 +28,6 @@ class PurchaseAggregate {
     PurchaseEntity[] Purchases
     --
     +PurchaseAggregate(IEnumerable<PurchaseEntity> purchases) <<constructor>>
-    +string GetSummary()
     +UniqueId[] GetUniqueIds()
     +BarcodeValue GetMostCommonProductType()
     +ProductSubtype[] GetProductSubtypes(ProductType productType)
