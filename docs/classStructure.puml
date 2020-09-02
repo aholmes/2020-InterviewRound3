@@ -13,19 +13,23 @@ class ProductKeys {
 }
 
 class PurchaseEntity {
-    char[8] Timestamp
+    DateTime Timestamp
     string Customer
     BarcodeValue[] Barcodes
 }
-note left: Timestamp is in the format MMDDYYYY
+note left
+Timestamp is in the format MMDDYYYY
+    It is a char[8] in the file.
+end note
 
 class PurchaseAggregate {
     PurchaseEntity[] Purchases
     --
+    +PurchaseAggregate(IEnumerable<PurchaseEntity> purchases) <<constructor>>
     +string GetSummary()
     +UniqueId[] GetUniqueIds()
     +BarcodeValue GetMostCommonProductType()
-    +ProductSubType[] GetProductSubTypes(ProductType productType)
+    +ProductSubtype[] GetProductSubtypes(ProductType productType)
 }
 
 class "char[4]" as char4
@@ -33,17 +37,21 @@ class "char[6]" as char6
 class "char[20]" as char20
 
 ProductType <|-- char4
-ProductSubType <|-- char6
+ProductSubtype <|-- char6
 UniqueId <|-- char20
+note right of ProductSubtype
+Each of these char[] types is a string,
+    this is just to denote the size.
+end note
 
 class BarcodeValue {
-    ProductType Type
-    ProductSubType Subtype
+    ProductType ProductType
+    ProductSubtype ProductSubtype
     UniqueId Id
 }
 
 BarcodeValue *-- ProductType : has
-BarcodeValue *-- ProductSubType : has
+BarcodeValue *-- ProductSubtype : has
 BarcodeValue *-- UniqueId : has
 
 ProductKeys *-- ProductType : has many
