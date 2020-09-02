@@ -1,5 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using UCLARound3.Domain.Value;
 
 namespace UCLARound3.Domain.Entity
@@ -9,5 +15,72 @@ namespace UCLARound3.Domain.Entity
         public DateTime Timestamp;
         public string Customer;
         public List<BarcodeValue> Barcodes;
+
+        public static async Task<PurchaseEntity> CreateFromStream(Stream stream)
+        {
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+
+            if (stream.Length == 0) throw new InvalidDataException("The stream cannot be empty.");
+
+            try
+            {
+                using (var sr = new StreamReader(stream))
+                {
+                    var (timestamp, customer) = await ParseHeader(sr);
+                    var products = await ParseProducts(sr);
+
+                    return new PurchaseEntity
+                    {
+                        Timestamp = timestamp,
+                        Customer = customer,
+                        Barcodes = products
+                    };
+                }
+            }
+            catch(Exception e)
+            {
+                throw new InvalidDataException("Error processing input data.", e);
+            }
+        }
+
+        private static async Task<(DateTime timestamp, string customer)> ParseHeader(StreamReader sr)
+        {
+            var buffer = new char[8];
+            await sr.ReadAsync(buffer, 0, buffer.Length);
+            var timestamp = DateTime.ParseExact(buffer, "MMddyyyy", CultureInfo.InvariantCulture);
+
+            // the remainder of the line is the customer's name
+            var customer = await sr.ReadLineAsync();
+
+            return (timestamp, customer);
+        }
+
+        private static async Task<List<BarcodeValue>> ParseProducts(StreamReader sr)
+        {
+            var products = new List<BarcodeValue>();
+            await foreach(var product in ReadProductsFromStream(sr))
+            {
+                products.Add(new BarcodeValue
+                {
+                    ProductType = product.type,
+                    ProductSubtype = product.subtype,
+                    Id = product.id
+                });
+            }
+
+            return products;
+        }
+
+        private static async IAsyncEnumerable<(string type, string subtype, string id)> ReadProductsFromStream(StreamReader sr)
+        {
+            while(!sr.EndOfStream)
+            {
+                var line = await sr.ReadLineAsync();
+                var type = line.Substring(0, 4);
+                var subtype = line.Substring(4, 6);
+                var id = line.Substring(10);
+                yield return (type, subtype, id);
+            }
+        }
     }
 }
