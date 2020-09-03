@@ -7,7 +7,7 @@
 'BEVGZYUFGNIHDCZIPWLZJLPDSGNEAH
 
 class ProductKeys {
-    ProductType[] Keys
+    HashSet<ProductType> Keys
     --
     +AddKey(ProductType productType)
 }

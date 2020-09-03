@@ -4,7 +4,7 @@ namespace UCLARound3.Domain
 {
     public class ProductKeys
     {
-        public readonly List<string> Keys = new List<string>
+        public readonly HashSet<string> Keys = new HashSet<string>
         {
             "BEVG",
             "BAKE",
