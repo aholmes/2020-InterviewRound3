@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NuGet.Frameworks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,45 +20,11 @@ namespace UCLARound3.UnitTests.Domain.Aggregate
         public void PurchaseAggregate_Throws_On_Null_Input()
         {
             #region Arrange/Act
-            PurchaseAggregate create () => new PurchaseAggregate(null);
+            void create() => new PurchaseAggregate(null);
             #endregion
 
             #region Assert
             Assert.Throws<ArgumentNullException>(create);
-            #endregion
-        }
-
-        [Fact]
-        public void GetUniqueIds_Throws_When_Purchases_Is_Null()
-        {
-            #region Arrange
-            var purchaseEntity = new PurchaseEntity(DateTime.Now, SampleFileDataHeaderCustomer, null);
-            var purchaseAggregate = new PurchaseAggregate(purchaseEntity);
-            #endregion
-
-            #region Act
-            List<string> get() => purchaseAggregate.GetUniqueIds();
-            #endregion
-
-            #region Assert
-            Assert.Throws<InvalidOperationException>(get);
-            #endregion
-        }
-
-        [Fact]
-        public void GetUniqueIds_Throws_When_No_Purchases()
-        {
-            #region Arrange
-            var purchaseEntity = new PurchaseEntity(DateTime.Now, SampleFileDataHeaderCustomer, new BarcodeValue[0]);
-            var purchaseAggregate = new PurchaseAggregate(purchaseEntity);
-            #endregion
-
-            #region Act
-            List<string> get() => purchaseAggregate.GetUniqueIds();
-            #endregion
-
-            #region Assert
-            Assert.Throws<InvalidOperationException>(get);
             #endregion
         }
 
@@ -78,18 +45,23 @@ namespace UCLARound3.UnitTests.Domain.Aggregate
         }
 
         [Fact]
-        public void GetMostCommonProductType_Returns_Most_Common_Product_Type()
+        public void GetMostCommonProductByType_Returns_Most_Common_Product_Type()
         {
             #region Arrange
-            var purchaseAggregate = new PurchaseAggregate(SamplePurchaseEntity);
+            var purchaseEntity = new PurchaseEntity(
+                timestamp: SamplePurchaseEntity.Timestamp,
+                customer: SamplePurchaseEntity.Customer,
+                barcodes: SamplePurchaseEntity.Barcodes.GetRange(0, SamplePurchaseEntity.Barcodes.Count - 1)
+            );
+            var purchaseAggregate = new PurchaseAggregate(purchaseEntity);
             #endregion
 
             #region Act
-            var product = purchaseAggregate.GetMostCommonProductByType();
+            var mostCommonProduct = purchaseAggregate.GetMostCommonProductByType();
             #endregion
 
             #region Assert
-            Assert.Equal("CANF", product.ProductType);
+            Assert.Equal("BEVG", mostCommonProduct.Key);
             #endregion
         }
 

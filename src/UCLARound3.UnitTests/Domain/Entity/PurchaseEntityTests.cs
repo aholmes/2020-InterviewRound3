@@ -42,6 +42,30 @@ namespace UCLARound3.UnitTests.Domain.Entity
             }
         }
 
+        [Fact]
+        public void Set_Barcodes_Throws_When_Purchases_Is_Null()
+        {
+            #region Arrange/Act
+            void create() => new PurchaseEntity(DateTime.Now, SampleFileDataHeaderCustomer, null);
+            #endregion
+
+            #region Assert
+            Assert.Throws<ArgumentNullException>(create);
+            #endregion
+        }
+
+        [Fact]
+        public void Set_Barcode_Throws_When_No_Purchases()
+        {
+            #region Arrange/Act
+            void create() => new PurchaseEntity(SamplePurchaseEntity.Timestamp, SampleFileDataHeaderCustomer, new BarcodeValue[0]);
+            #endregion
+
+            #region Assert
+            Assert.Throws<InvalidDataException>(create);
+            #endregion
+        }
+
         [Theory]
         [InlineData("")]
         [InlineData(SampleFileDataHeaderTimestamp)]
