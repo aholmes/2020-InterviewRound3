@@ -25,11 +25,11 @@ Timestamp is in the format MMDDYYYY
 end note
 
 class PurchaseAggregate {
-    PurchaseEntity[] Purchases
+    PurchaseEntity Purchase
     --
-    +PurchaseAggregate(IEnumerable<PurchaseEntity> purchases) <<constructor>>
+    +PurchaseAggregate(PurchaseEntity purchase) <<constructor>>
     +UniqueId[] GetUniqueIds()
-    +BarcodeValue GetMostCommonProductType()
+    +BarcodeValue GetMostCommonProduct()
     +ProductSubtype[] GetProductSubtypes(ProductType productType)
 }
 
