@@ -18,8 +18,11 @@ namespace UCLARound3.Domain.Aggregate
             Purchase = purchase;
         }
 
+        // TODO update this to only return unique IDs for
+        // products that are in the ProductKeys hashset.
+        // FIXME did I understand correctly what this is supposed to do?
         public List<string> GetUniqueIds()
-            => new HashSet<string>(Purchase.Barcodes.Select(barcode => barcode.Id)).ToList();
+            => Purchase.Barcodes.Select(barcode => barcode.Id).Distinct().ToList();
 
         public IGrouping<string, BarcodeValue> GetMostCommonProductByType()
         {
