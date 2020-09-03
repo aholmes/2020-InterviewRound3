@@ -3,18 +3,39 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UCLARound3.Domain.Value;
 
+[assembly: InternalsVisibleTo("UCLARound3.UnitTests")]
 namespace UCLARound3.Domain.Entity
 {
     public class PurchaseEntity
     {
-        public DateTime Timestamp;
-        public string Customer;
-        public List<BarcodeValue> Barcodes;
+        public DateTime Timestamp { get; private set; }
+        public string Customer { get; private set; }
+        private List<BarcodeValue> _barcodes;
+        public List<BarcodeValue> Barcodes
+        {
+            get => _barcodes;
+            private set
+            {
+                if (!value.Any()) throw new InvalidDataException("The purchase data does not contain any purchased products.");
+                _barcodes = value;
+            }
+        }
+
+        internal PurchaseEntity() { }
+
+        internal PurchaseEntity(DateTime timestamp, string customer, IEnumerable<BarcodeValue> barcodes)
+        {
+            Timestamp = timestamp;
+            Customer = customer;
+            Barcodes = barcodes.ToList();
+        }
 
         public static async Task<PurchaseEntity> CreateFromStream(Stream stream)
         {
@@ -58,13 +79,13 @@ namespace UCLARound3.Domain.Entity
         private static async Task<List<BarcodeValue>> ParseProducts(StreamReader sr)
         {
             var products = new List<BarcodeValue>();
-            await foreach(var product in ReadProductsFromStream(sr))
+            await foreach(var (type, subtype, id) in ReadProductsFromStream(sr))
             {
                 products.Add(new BarcodeValue
                 {
-                    ProductType = product.type,
-                    ProductSubtype = product.subtype,
-                    Id = product.id
+                    ProductType = type,
+                    ProductSubtype = subtype,
+                    Id = id
                 });
             }
 

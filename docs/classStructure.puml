@@ -29,7 +29,7 @@ class PurchaseAggregate {
     --
     +PurchaseAggregate(PurchaseEntity purchase) <<constructor>>
     +UniqueId[] GetUniqueIds()
-    +BarcodeValue GetMostCommonProduct()
+    +BarcodeValue GetMostCommonProductByType()
     +ProductSubtype[] GetProductSubtypes(ProductType productType)
 }
 

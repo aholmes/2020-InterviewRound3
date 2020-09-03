@@ -8,15 +8,15 @@ namespace UCLARound3.Domain.Aggregate
 {
     public class PurchaseAggregate
     {
-        public readonly PurchaseEntity[] Purchases;
+        public readonly PurchaseEntity Purchase;
 
-        public PurchaseAggregate(IEnumerable<PurchaseEntity> purchases)
+        public PurchaseAggregate(PurchaseEntity purchase)
         {
-            Purchases = purchases.ToArray();
+            Purchase = purchase;
         }
 
         public List<string> GetUniqueIds() => throw new NotImplementedException();
-        public BarcodeValue GetMostCommonProductType() => throw new NotImplementedException();
-        public List<string> GetProductSubTypes() => throw new NotImplementedException();
+        public BarcodeValue GetMostCommonProductByType() => throw new NotImplementedException();
+        public List<string> GetProductSubtypes(string productType) => throw new NotImplementedException();
     }
 }

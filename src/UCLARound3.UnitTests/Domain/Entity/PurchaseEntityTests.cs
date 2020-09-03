@@ -9,59 +9,14 @@ using UCLARound3.Domain.Value;
 using UCLARound3.UnitTests.Helpers;
 using Xunit;
 
-namespace UCLARound3.UnitTests.Entity
+using static UCLARound3.UnitTests.Helpers.SampleDataGenerator;
+
+namespace UCLARound3.UnitTests.Domain.Entity
 {
     public class PurchaseEntityTests
     {
-        private const string SampleFileData = @"01232020Jamie
-BEVGTTKYGDGJHGTFBNGDVZJGDIPXVS
-CANFDNSKAVOUXSCGSYBHQYHNMDQOBL
-FRZNQQNPSESCHIMIXOUHNAWLXRZEPT
-BEVGZYUFGNIHDCZIPWLZJLPDSGNEAH
-CDNFDNSKAVOUXSCGSYBHQYHNMDQOBL"; // this last one has an invalid product type - it should be CANF
-
-        private readonly PurchaseEntity _samplePurchaseEntity = new PurchaseEntity
-        {
-            Timestamp = new DateTime(2020, 1, 23),
-            Customer = "Jamie",
-            Barcodes = new List<BarcodeValue>
-            {
-                new BarcodeValue
-                {
-                    ProductType = "BEVG",
-                    ProductSubtype = "TTKYGD",
-                    Id = "GJHGTFBNGDVZJGDIPXVS"
-                },
-                new BarcodeValue
-                {
-                    ProductType = "CANF",
-                    ProductSubtype = "DNSKAV",
-                    Id = "OUXSCGSYBHQYHNMDQOBL"
-                },
-                new BarcodeValue
-                {
-                    ProductType = "FRZN",
-                    ProductSubtype = "QQNPSE",
-                    Id = "SCHIMIXOUHNAWLXRZEPT"
-                },
-                new BarcodeValue
-                {
-                    ProductType = "BEVG",
-                    ProductSubtype = "ZYUFGN",
-                    Id = "IHDCZIPWLZJLPDSGNEAH"
-                },
-                // this is the corrected value from the corrupt line
-                new BarcodeValue
-                {
-                    ProductType = "CANF",
-                    ProductSubtype = "DNSKAV",
-                    Id = "OUXSCGSYBHQYHNMDQOBL"
-                }
-            }
-        };
-
         [Fact]
-        public async Task CreateFromStream_Disallows_Null_Input()
+        public async Task CreateFromStream_Throws_On_Null_Input()
         {
             #region Arrange/Act
             async Task create() => await PurchaseEntity.CreateFromStream(null);
@@ -73,7 +28,7 @@ CDNFDNSKAVOUXSCGSYBHQYHNMDQOBL"; // this last one has an invalid product type - 
         }
 
         [Fact]
-        public async Task CreateFromStream_Disallows_Empty_Input()
+        public async Task CreateFromStream_Throws_On_Empty_Input()
         {
             using (var ms = new MemoryStream())
             {
@@ -87,14 +42,19 @@ CDNFDNSKAVOUXSCGSYBHQYHNMDQOBL"; // this last one has an invalid product type - 
             }
         }
 
-        [Fact]
-        public async Task CreateFromStream_Rejects_Invalid_Data()
+        [Theory]
+        [InlineData("")]
+        [InlineData(SampleFileDataHeaderTimestamp)]
+        [InlineData(SampleFileDataHeaderCustomer)]
+        [InlineData(SampleFileDataHeader)]
+        [InlineData(SampleFileDataHeader + "abc123")]
+        public async Task CreateFromStream_Throws_On_Invalid_Data(string data)
         {
             using (var ms = new MemoryStream())
             using (var sw = new StreamWriter(ms))
             {
                 #region Arrange
-                await sw.WriteAsync(SampleFileData.Substring(0, 50));
+                await sw.WriteAsync(data);
                 await sw.FlushAsync();
                 ms.Position = 0;
                 #endregion
@@ -127,9 +87,10 @@ CDNFDNSKAVOUXSCGSYBHQYHNMDQOBL"; // this last one has an invalid product type - 
                 #endregion
 
                 #region Assert
-                Assert.Equal(_samplePurchaseEntity.Timestamp, purchaseEntity.Timestamp);
-                Assert.Equal(_samplePurchaseEntity.Customer, purchaseEntity.Customer);
-                Assert.Equal(_samplePurchaseEntity.Barcodes.SkipLast(1), purchaseEntity.Barcodes, new BarcodeValueEqualityComparer());
+                Assert.Equal(SamplePurchaseEntity.Timestamp, purchaseEntity.Timestamp);
+                Assert.Equal(SamplePurchaseEntity.Customer, purchaseEntity.Customer);
+                Assert.Equal(4, purchaseEntity.Barcodes.Count);
+                Assert.Equal(SamplePurchaseEntity.Barcodes.SkipLast(1), purchaseEntity.Barcodes, new BarcodeValueEqualityComparer());
                 #endregion
             }
         }
@@ -151,9 +112,10 @@ CDNFDNSKAVOUXSCGSYBHQYHNMDQOBL"; // this last one has an invalid product type - 
                 #endregion
 
                 #region Assert
-                Assert.Equal(_samplePurchaseEntity.Timestamp, purchaseEntity.Timestamp);
-                Assert.Equal(_samplePurchaseEntity.Customer, purchaseEntity.Customer);
-                Assert.Equal(_samplePurchaseEntity.Barcodes, purchaseEntity.Barcodes, new BarcodeValueEqualityComparer());
+                Assert.Equal(SamplePurchaseEntity.Timestamp, purchaseEntity.Timestamp);
+                Assert.Equal(SamplePurchaseEntity.Customer, purchaseEntity.Customer);
+                Assert.Equal(5, purchaseEntity.Barcodes.Count);
+                Assert.Equal(SamplePurchaseEntity.Barcodes, purchaseEntity.Barcodes, new BarcodeValueEqualityComparer());
                 #endregion
             }
         }
