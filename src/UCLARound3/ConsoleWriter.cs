@@ -12,16 +12,27 @@ namespace UCLARound3
 
         public ConsoleWritingVisitor(IConsole console)
         {
+            if (console == null) throw new ArgumentNullException(nameof(console));
+
             _console = console;
         }
 
-        public void WriteLine(ConsoleWriter writer)
-            => _console.WriteLine(writer.GetOutput());
+        public void Visit(ConsoleWriter writer)
+        {
+            if (writer == null) throw new ArgumentNullException(nameof(writer));
+
+            _console.WriteLine(writer.GetOutput());
+        }
     }
 
     public abstract class ConsoleWriter
     {
-        public virtual void Accept(ConsoleWritingVisitor visitor) => visitor.WriteLine(this);
+        public virtual void Accept(ConsoleWritingVisitor visitor)
+        {
+            if (visitor == null) throw new ArgumentNullException(nameof(visitor));
+
+            visitor.Visit(this);
+        }
         public abstract string GetOutput();
     }
 
@@ -31,6 +42,8 @@ namespace UCLARound3
 
         public PurchaseSummary(PurchaseEntity purchaseEntity)
         {
+            if (purchaseEntity == null) throw new ArgumentNullException(nameof(purchaseEntity));
+
             _purchaseEntity = purchaseEntity;
         }
 
@@ -46,6 +59,8 @@ Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
 
         public PurchaseDetail(PurchaseAggregate purchaseAggregate)
         {
+            if (purchaseAggregate == null) throw new ArgumentNullException(nameof(purchaseAggregate));
+
             _purchaseAggregate = purchaseAggregate;
         }
 
@@ -66,6 +81,8 @@ The most common product type purchased: {commonProductsByType.Key}";
 
         public ProductDetail(PurchaseAggregate purchaseAggregate)
         {
+            if (purchaseAggregate == null) throw new ArgumentNullException(nameof(purchaseAggregate));
+
             _purchaseAggregate = purchaseAggregate;
         }
 

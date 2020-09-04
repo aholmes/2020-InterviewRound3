@@ -5,6 +5,7 @@ using Xunit;
 using UCLARound3;
 using UCLARound3.UnitTests.Helpers;
 using Moq;
+using System.Reflection;
 
 namespace UCLARound3.UnitTests.Application
 {
@@ -36,7 +37,7 @@ namespace UCLARound3.UnitTests.Application
             #endregion
 
             #region Act
-            void act() => visitor.WriteLine(null);
+            void act() => visitor.Visit(null);
             #endregion
 
             #region Assert
@@ -84,7 +85,17 @@ namespace UCLARound3.UnitTests.Application
         public void ConsoleWriters_Throw_On_Null_Input(Type consoleWriterType)
         {
             #region Arrange/Act
-            void create() => Activator.CreateInstance(consoleWriterType, new object[] { null });
+            void create()
+            {
+                try
+                {
+                    Activator.CreateInstance(consoleWriterType, new object[] { null });
+                }
+                catch(TargetInvocationException e) when (e?.InnerException is ArgumentNullException)
+                {
+                    throw e.InnerException;
+                }
+            }
             #endregion
 
             #region Assert
