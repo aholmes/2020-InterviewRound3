@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\UCLARound3.Writer\UCLARound3.Writer.csproj" />
     <ProjectReference Include="..\UCLARound3.Domain\UCLARound3.Domain.csproj" />
   </ItemGroup>
 

@@ -6,6 +6,7 @@ using UCLARound3;
 using UCLARound3.UnitTests.Helpers;
 using Moq;
 using System.Reflection;
+using UCLARound3.Writer;
 
 namespace UCLARound3.UnitTests.Application
 {

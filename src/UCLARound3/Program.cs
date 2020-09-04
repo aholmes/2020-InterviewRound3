@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
+using UCLARound3.Writer;
 
 namespace UCLARound3
 {

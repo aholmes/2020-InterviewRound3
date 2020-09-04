@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UCLARound3
+namespace UCLARound3.Writer
 {
     public class ConsoleWrapper : IConsole
     {

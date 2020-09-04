@@ -4,7 +4,7 @@ using System.Text;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
 
-namespace UCLARound3
+namespace UCLARound3.Writer
 {
     public class ConsoleWritingVisitor
     {
