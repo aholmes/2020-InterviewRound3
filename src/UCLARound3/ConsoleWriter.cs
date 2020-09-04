@@ -8,15 +8,20 @@ namespace UCLARound3
 {
     public class ConsoleWritingVisitor
     {
-    
+        private IConsole _console;
+
+        public ConsoleWritingVisitor(IConsole console)
+        {
+            _console = console;
+        }
+
         public void WriteLine(ConsoleWriter writer)
-            => Console.WriteLine(writer.GetOutput() + "\n");
+            => _console.WriteLine(writer.GetOutput());
     }
 
     public abstract class ConsoleWriter
     {
-        public virtual void Accept(ConsoleWritingVisitor visitor)
-            => visitor.WriteLine(this);
+        public virtual void Accept(ConsoleWritingVisitor visitor) => visitor.WriteLine(this);
         public abstract string GetOutput();
     }
 

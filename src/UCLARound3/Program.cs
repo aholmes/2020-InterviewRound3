@@ -26,15 +26,22 @@ BEVGZYUFGNIHDCZIPWLZJLPDSGNEAH");
                 purchaseAggregate = new PurchaseAggregate(purchaseEntity);
             }
 
-            var consoleWritingVisitor = new ConsoleWritingVisitor();
+            var console = new ConsoleWrapper();
+            var consoleWritingVisitor = new ConsoleWritingVisitor(console);
 
-            var purchaseSummary = new PurchaseSummary(purchaseEntity);
-            var purchaseDetail = new PurchaseDetail(purchaseAggregate);
-            var productDetail = new ProductDetail(purchaseAggregate);
 
-            purchaseSummary.Accept(consoleWritingVisitor);
-            purchaseDetail.Accept(consoleWritingVisitor);
-            productDetail.Accept(consoleWritingVisitor);
+            var writers = new ConsoleWriter[]
+            {
+                new PurchaseSummary(purchaseEntity),
+                new PurchaseDetail(purchaseAggregate),
+                new ProductDetail(purchaseAggregate)
+            };
+
+            foreach(var writer in writers)
+            {
+                writer.Accept(consoleWritingVisitor);
+                console.WriteLine();
+            }
         }
     }
 }
