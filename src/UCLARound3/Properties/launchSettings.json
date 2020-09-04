@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UCLARound3": {
+      "commandName": "Project",
+      "commandLineArgs": "CustomerG.tx"
+    }
+  }
+}
