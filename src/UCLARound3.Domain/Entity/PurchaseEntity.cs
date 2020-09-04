@@ -15,8 +15,8 @@ namespace UCLARound3.Domain.Entity
 {
     public class PurchaseEntity
     {
-        public DateTime Timestamp { get; private set; }
-        public string Customer { get; private set; }
+        public TimestampValue Timestamp { get; private set; }
+        public CustomerValue Customer { get; private set; }
         private List<BarcodeValue> _barcodes;
         public List<BarcodeValue> Barcodes
         {
@@ -30,7 +30,7 @@ namespace UCLARound3.Domain.Entity
 
         internal PurchaseEntity() { }
 
-        internal PurchaseEntity(DateTime timestamp, string customer, IEnumerable<BarcodeValue> barcodes)
+        internal PurchaseEntity(TimestampValue timestamp, CustomerValue customer, IEnumerable<BarcodeValue> barcodes)
         {
             Timestamp = timestamp;
             Customer = customer;
@@ -64,7 +64,7 @@ namespace UCLARound3.Domain.Entity
             }
         }
 
-        private static async Task<(DateTime timestamp, string customer)> ParseHeader(StreamReader sr)
+        private static async Task<(TimestampValue timestamp, CustomerValue customer)> ParseHeader(StreamReader sr)
         {
             var buffer = new char[8];
             await sr.ReadAsync(buffer, 0, buffer.Length);
@@ -92,7 +92,7 @@ namespace UCLARound3.Domain.Entity
             return products;
         }
 
-        private static async IAsyncEnumerable<(string type, string subtype, string id)> ReadProductsFromStream(StreamReader sr)
+        private static async IAsyncEnumerable<(ProductTypeValue type, ProductSubtypeValue subtype, ProductIdValue id)> ReadProductsFromStream(StreamReader sr)
         {
             while(!sr.EndOfStream)
             {

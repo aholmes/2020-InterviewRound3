@@ -46,7 +46,7 @@ namespace UCLARound3.UnitTests.Domain.Entity
         public void Set_Barcodes_Throws_When_Purchases_Is_Null()
         {
             #region Arrange/Act
-            void create() => new PurchaseEntity(DateTime.Now, SampleFileDataHeaderCustomer, null);
+            void create() => new PurchaseEntity(SamplePurchaseEntity.Timestamp, SampleFileDataHeaderCustomer, null);
             #endregion
 
             #region Assert

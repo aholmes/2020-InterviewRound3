@@ -2,9 +2,9 @@
 
 namespace UCLARound3.Domain
 {
-    public class ProductKeys
+    public static class ProductKeys
     {
-        public readonly HashSet<string> Keys = new HashSet<string>
+        public static readonly HashSet<ProductTypeValue> Keys = new HashSet<ProductTypeValue>
         {
             "BEVG",
             "BAKE",
@@ -19,6 +19,7 @@ namespace UCLARound3.Domain
             "MISC"
         };
 
-        public void AddKey(string productType) => Keys.Add(productType);
+        public static void AddKey(string productType) => Keys.Add(productType);
+        public static void AddKey(ProductTypeValue productType) => Keys.Add(productType);
     }
 }

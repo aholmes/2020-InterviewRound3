@@ -9,10 +9,10 @@ namespace UCLARound3.UnitTests.Helpers
 {
     public class BarcodeValueEqualityComparer : IEqualityComparer<BarcodeValue>
     {
-        public bool Equals([DisallowNull] BarcodeValue x, [DisallowNull] BarcodeValue y)
-            => x.ProductType == y.ProductType
-               && x.ProductSubtype == y.ProductSubtype
-               && x.Id == y.Id;
+        public bool Equals([DisallowNull] BarcodeValue a, [DisallowNull] BarcodeValue b)
+            => a.ProductType == b.ProductType
+               && a.ProductSubtype == b.ProductSubtype
+               && a.Id == b.Id;
 
         public int GetHashCode([DisallowNull] BarcodeValue obj)
             => obj.GetHashCode();

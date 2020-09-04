@@ -73,14 +73,15 @@ namespace UCLARound3.UnitTests.Domain.Aggregate
         public void GetProductSubTypes_Returns_All_Product_Subtypes_For_Product_Type(string productType, string formattedSubtypesTestData)
         {
             #region Arrange
-            var subtypesTestData = formattedSubtypesTestData.Split('|'); 
+            // string[] and List<ProductSubtypeValue> are invariant
+            // and must be explicity cast for the assertion below
+            var subtypesTestData = formattedSubtypesTestData.Split('|').Select(o => (ProductSubtypeValue)o); 
             var purchaseAggregate = new PurchaseAggregate(SamplePurchaseEntity);
             #endregion
 
             #region Act
             var subtypes = purchaseAggregate.GetProductSubtypes(productType);
             #endregion
-
             #region Assert
             Assert.Equal(subtypesTestData, subtypes);
             #endregion

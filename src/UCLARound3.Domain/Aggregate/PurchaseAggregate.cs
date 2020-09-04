@@ -21,12 +21,12 @@ namespace UCLARound3.Domain.Aggregate
         // TODO update this to only return unique IDs for
         // products that are in the ProductKeys hashset.
         // FIXME did I understand correctly what this is supposed to do?
-        public List<string> GetUniqueIds()
+        public List<ProductIdValue> GetUniqueIds()
             => Purchase.Barcodes.Select(barcode => barcode.Id).Distinct().ToList();
 
-        public IGrouping<string, BarcodeValue> GetMostCommonProductByType()
+        public IGrouping<ProductTypeValue, BarcodeValue> GetMostCommonProductByType()
         {
-            var productTypeCounts = new Dictionary<(string productType, BarcodeValue barcode), int>();
+            var productTypeCounts = new Dictionary<(ProductTypeValue productType, BarcodeValue barcode), int>();
             foreach (var barcode in Purchase.Barcodes)
             {
                 productTypeCounts.TryGetValue((barcode.ProductType, barcode), out int productTypeCount);
@@ -41,7 +41,7 @@ namespace UCLARound3.Domain.Aggregate
             return productTypeGroups.OrderByDescending(g => g.Count()).First();
         }
 
-        public List<string> GetProductSubtypes(string productType)
+        public List<ProductSubtypeValue> GetProductSubtypes(ProductTypeValue productType)
         {
             return (from barcode in Purchase.Barcodes
                    where barcode.ProductType == productType
