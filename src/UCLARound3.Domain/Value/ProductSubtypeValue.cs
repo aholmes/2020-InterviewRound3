@@ -2,11 +2,19 @@
 
 namespace UCLARound3.Domain
 {
+    /// <summary>
+    /// A 6-character product subtype.
+    /// </summary>
     public class ProductSubtypeValue: ValueBase<string>
     {
+        /// <summary>
+        /// Get a new product subtype.
+        /// </summary>
+        /// <param name="value"></param>
         public ProductSubtypeValue(string value)
             : base(value)
         {
+            // TODO validate length of input
         }
 
         public static implicit operator string(ProductSubtypeValue obj) => obj.Value;

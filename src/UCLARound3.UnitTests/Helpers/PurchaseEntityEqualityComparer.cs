@@ -4,6 +4,9 @@ using UCLARound3.Domain.Value;
 
 namespace UCLARound3.UnitTests.Helpers
 {
+    /// <summary>
+    /// Used to simplify equality assertions for <see cref="BarcodeValue"/> instances.
+    /// </summary>
     public class BarcodeValueEqualityComparer: IEqualityComparer<BarcodeValue>
     {
         public bool Equals([DisallowNull] BarcodeValue a, [DisallowNull] BarcodeValue b)

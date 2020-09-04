@@ -2,11 +2,19 @@
 
 namespace UCLARound3.Domain
 {
+    /// <summary>
+    /// A 20-character unique product identifier.
+    /// </summary>
     public class ProductIdValue: ValueBase<string>
     {
+        /// <summary>
+        /// Get a new product ID.
+        /// </summary>
+        /// <param name="value"></param>
         public ProductIdValue(string value)
             : base(value)
         {
+            // TODO validate length of input
         }
 
         public static implicit operator string(ProductIdValue obj) => obj.Value;

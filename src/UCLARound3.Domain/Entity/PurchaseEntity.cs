@@ -10,11 +10,26 @@ using UCLARound3.Domain.Value;
 [assembly: InternalsVisibleTo("UCLARound3.UnitTests")]
 namespace UCLARound3.Domain.Entity
 {
+    /// <summary>
+    /// A record of a purchase containing the time of purchase,
+    /// who made the purchase, and the product barcodes in that purchase.
+    /// </summary>
     public class PurchaseEntity
     {
+        /// <summary>
+        /// The time the purchase was made.
+        /// </summary>
         public TimestampValue Timestamp { get; private set; }
+
+        /// <summary>
+        /// The customer who made the purchase.
+        /// </summary>
         public CustomerValue Customer { get; private set; }
+
         private List<BarcodeValue> _barcodes;
+        /// <summary>
+        /// The barcode information for each product purchased.
+        /// </summary>
         public List<BarcodeValue> Barcodes
         {
             get => _barcodes;
@@ -26,8 +41,17 @@ namespace UCLARound3.Domain.Entity
             }
         }
 
+        /// <summary>
+        /// Create an uninitialized instance
+        /// </summary>
         internal PurchaseEntity() { }
 
+        /// <summary>
+        /// Create an instance with the parameterized values
+        /// </summary>
+        /// <param name="timestamp"></param>
+        /// <param name="customer"></param>
+        /// <param name="barcodes"></param>
         internal PurchaseEntity(TimestampValue timestamp, CustomerValue customer, IEnumerable<BarcodeValue> barcodes)
         {
             Timestamp = timestamp;
@@ -35,6 +59,11 @@ namespace UCLARound3.Domain.Entity
             Barcodes = barcodes.ToList();
         }
 
+        /// <summary>
+        /// Get a new instance from data parsed out of the given <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public static async Task<PurchaseEntity> CreateFromStream(Stream stream)
         {
             if(stream == null)
@@ -64,6 +93,12 @@ namespace UCLARound3.Domain.Entity
             }
         }
 
+        /// <summary>
+        /// Parse the timestamp and customer name from the stream.
+        /// This must be called before <see cref="ParseProducts(StreamReader)"/>.
+        /// </summary>
+        /// <param name="sr"></param>
+        /// <returns></returns>
         private static async Task<(TimestampValue timestamp, CustomerValue customer)> ParseHeader(StreamReader sr)
         {
             var buffer = new char[8];
@@ -76,6 +111,12 @@ namespace UCLARound3.Domain.Entity
             return (timestamp, customer);
         }
 
+        /// <summary>
+        /// Parse each barcode from the stream.
+        /// This must be called after <see cref="ParseHeader(StreamReader)"/>.
+        /// </summary>
+        /// <param name="sr"></param>
+        /// <returns></returns>
         private static async Task<List<BarcodeValue>> ParseProducts(StreamReader sr)
         {
             var products = new List<BarcodeValue>();
@@ -92,6 +133,11 @@ namespace UCLARound3.Domain.Entity
             return products;
         }
 
+        /// <summary>
+        /// Read and return one barcode from the stream at a time.
+        /// </summary>
+        /// <param name="sr"></param>
+        /// <returns></returns>
         private static async IAsyncEnumerable<(ProductTypeValue type, ProductSubtypeValue subtype, ProductIdValue id)> ReadProductsFromStream(StreamReader sr)
         {
             while(!sr.EndOfStream)

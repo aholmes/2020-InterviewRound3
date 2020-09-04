@@ -2,8 +2,15 @@
 
 namespace UCLARound3.Domain.Value
 {
+    /// <summary>
+    /// A DateTime.
+    /// </summary>
     public class TimestampValue: ValueBase<DateTime>
     {
+        /// <summary>
+        /// Get a new timestamp.
+        /// </summary>
+        /// <param name="value"></param>
         public TimestampValue(DateTime value)
             : base(value)
         {

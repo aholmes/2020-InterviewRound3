@@ -4,10 +4,17 @@ using UCLARound3.Domain.Entity;
 
 namespace UCLARound3.Writer
 {
+    /// <summary>
+    /// A <see cref="ConsoleWriter"/> visitor.
+    /// </summary>
     public class ConsoleWritingVisitor
     {
         private IConsole _console;
 
+        /// <summary>
+        /// Get a new instance.
+        /// </summary>
+        /// <param name="console"></param>
         public ConsoleWritingVisitor(IConsole console)
         {
             if(console == null)
@@ -16,6 +23,10 @@ namespace UCLARound3.Writer
             _console = console;
         }
 
+        /// <summary>
+        /// Write the output of the <see cref="ConsoleWriter"/> to the <see cref="IConsole.WriteLine(string)"/> method.
+        /// </summary>
+        /// <param name="writer"></param>
         public void Visit(ConsoleWriter writer)
         {
             if(writer == null)
@@ -25,8 +36,15 @@ namespace UCLARound3.Writer
         }
     }
 
+    /// <summary>
+    /// Base class for <see cref="ConsoleWritingVisitor"/> dispatchers.
+    /// </summary>
     public abstract class ConsoleWriter
     {
+        /// <summary>
+        /// Dispatch to the visitor.
+        /// </summary>
+        /// <param name="visitor"></param>
         public virtual void Accept(ConsoleWritingVisitor visitor)
         {
             if(visitor == null)
@@ -34,13 +52,25 @@ namespace UCLARound3.Writer
 
             visitor.Visit(this);
         }
+
+        /// <summary>
+        /// The action performed by the visitor.
+        /// </summary>
+        /// <returns></returns>
         public abstract string GetOutput();
     }
 
+    /// <summary>
+    /// Summarize a purchase.
+    /// </summary>
     public class PurchaseSummary: ConsoleWriter
     {
         private readonly PurchaseEntity _purchaseEntity;
 
+        /// <summary>
+        /// Get a new instance.
+        /// </summary>
+        /// <param name="purchaseEntity"></param>
         public PurchaseSummary(PurchaseEntity purchaseEntity)
         {
             if(purchaseEntity == null)
@@ -49,16 +79,27 @@ namespace UCLARound3.Writer
             _purchaseEntity = purchaseEntity;
         }
 
+        /// <summary>
+        /// Summarizes the purchase name, time, and number of items purchased.
+        /// </summary>
+        /// <returns></returns>
         public override string GetOutput()
             => $@"Customer: {_purchaseEntity.Customer}
 Date: {_purchaseEntity.Timestamp}
 Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
     }
 
+    /// <summary>
+    /// Details a purchase.
+    /// </summary>
     public class PurchaseDetail: ConsoleWriter
     {
         private readonly PurchaseAggregate _purchaseAggregate;
 
+        /// <summary>
+        /// Get a new instance.
+        /// </summary>
+        /// <param name="purchaseAggregate"></param>
         public PurchaseDetail(PurchaseAggregate purchaseAggregate)
         {
             if(purchaseAggregate == null)
@@ -67,6 +108,10 @@ Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
             _purchaseAggregate = purchaseAggregate;
         }
 
+        /// <summary>
+        /// Details information about the items that were purchased.
+        /// </summary>
+        /// <returns></returns>
         public override string GetOutput()
         {
             var uniqueIds = _purchaseAggregate.GetUniqueIds();
@@ -78,10 +123,17 @@ The most common product type purchased: {commonProductsByType.Key}";
         }
     }
 
+    /// <summary>
+    /// Details products.
+    /// </summary>
     public class ProductDetail: ConsoleWriter
     {
         private readonly PurchaseAggregate _purchaseAggregate;
 
+        /// <summary>
+        /// Get a new instance.
+        /// </summary>
+        /// <param name="purchaseAggregate"></param>
         public ProductDetail(PurchaseAggregate purchaseAggregate)
         {
             if(purchaseAggregate == null)
@@ -90,6 +142,10 @@ The most common product type purchased: {commonProductsByType.Key}";
             _purchaseAggregate = purchaseAggregate;
         }
 
+        /// <summary>
+        /// Details the subtypes for the most common product type purchased.
+        /// </summary>
+        /// <returns></returns>
         public override string GetOutput()
         {
             var commonProductsByType = _purchaseAggregate.GetMostCommonProductByType();

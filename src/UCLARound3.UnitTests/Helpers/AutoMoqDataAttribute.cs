@@ -6,6 +6,7 @@ namespace UCLARound3.UnitTests.Helpers
 {
     /// <summary>
     /// https://blog.ploeh.dk/2010/10/08/AutoDataTheorieswithAutoFixture/
+    /// Automatically create new Mock{T} objects in test method parameters.
     /// </summary>
     public class AutoMoqDataAttribute: AutoDataAttribute
     {

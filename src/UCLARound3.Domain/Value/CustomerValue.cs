@@ -2,8 +2,15 @@
 
 namespace UCLARound3.Domain
 {
+    /// <summary>
+    /// A customer who made a purchase.
+    /// </summary>
     public class CustomerValue: ValueBase<string>
     {
+        /// <summary>
+        /// Get a new customer instance.
+        /// </summary>
+        /// <param name="value">The customer's name.</param>
         public CustomerValue(string value)
             : base(value)
         {

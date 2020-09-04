@@ -78,6 +78,11 @@ namespace UCLARound3
             Console.ReadLine();
         }
 
+        /// <summary>
+        /// Open the given filename and return a <see cref="Stream"/> for reading.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         static Stream GetOpenFileStream(string filename)
         {
             if(filename == null)
