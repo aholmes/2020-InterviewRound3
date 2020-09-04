@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace UCLARound3.Domain.Value
 {
     public class TimestampValue: ValueBase<DateTime>
     {
         public TimestampValue(DateTime value)
-            :base(value)
+            : base(value)
         {
         }
 

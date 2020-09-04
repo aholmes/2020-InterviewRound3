@@ -1,16 +1,13 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace UCLARound3.UnitTests.Helpers
 {
     /// <summary>
     /// https://blog.ploeh.dk/2010/10/08/AutoDataTheorieswithAutoFixture/
     /// </summary>
-    public class AutoMoqDataAttribute : AutoDataAttribute
+    public class AutoMoqDataAttribute: AutoDataAttribute
     {
         public AutoMoqDataAttribute()
             : base(() => new Fixture()

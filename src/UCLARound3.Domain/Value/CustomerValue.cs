@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using UCLARound3.Domain.Value;
+﻿using UCLARound3.Domain.Value;
 
 namespace UCLARound3.Domain
 {
     public class CustomerValue: ValueBase<string>
     {
         public CustomerValue(string value)
-            :base(value)
+            : base(value)
         {
         }
 

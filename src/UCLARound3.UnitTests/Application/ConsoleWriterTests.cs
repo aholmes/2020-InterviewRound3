@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using UCLARound3;
-using UCLARound3.UnitTests.Helpers;
-using Moq;
+﻿using Moq;
+using System;
 using System.Reflection;
+using UCLARound3.UnitTests.Helpers;
 using UCLARound3.Writer;
+using Xunit;
 
 namespace UCLARound3.UnitTests.Application
 {
     public class ConsoleWriterTests
     {
         private const string TestOutputString = "ABC123";
-        private class TestConsoleWriter : ConsoleWriter
+        private class TestConsoleWriter: ConsoleWriter
         {
             public override string GetOutput() => TestOutputString;
         }
@@ -92,7 +89,7 @@ namespace UCLARound3.UnitTests.Application
                 {
                     Activator.CreateInstance(consoleWriterType, new object[] { null });
                 }
-                catch(TargetInvocationException e) when (e?.InnerException is ArgumentNullException)
+                catch(TargetInvocationException e) when(e?.InnerException is ArgumentNullException)
                 {
                     throw e.InnerException;
                 }

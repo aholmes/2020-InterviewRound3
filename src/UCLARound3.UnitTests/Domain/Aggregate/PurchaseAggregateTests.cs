@@ -1,13 +1,8 @@
-﻿using NuGet.Frameworks;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCLARound3.Domain;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
 using Xunit;
 
 using static UCLARound3.UnitTests.Helpers.SampleDataGenerator;
@@ -75,7 +70,7 @@ namespace UCLARound3.UnitTests.Domain.Aggregate
             #region Arrange
             // string[] and List<ProductSubtypeValue> are invariant
             // and must be explicity cast for the assertion below
-            var subtypesTestData = formattedSubtypesTestData.Split('|').Select(o => (ProductSubtypeValue)o); 
+            var subtypesTestData = formattedSubtypesTestData.Split('|').Select(o => (ProductSubtypeValue)o);
             var purchaseAggregate = new PurchaseAggregate(SamplePurchaseEntity);
             #endregion
 

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UCLARound3.Domain.Entity;
 using UCLARound3.Domain.Value;
@@ -30,7 +28,7 @@ namespace UCLARound3.UnitTests.Domain.Entity
         [Fact]
         public async Task CreateFromStream_Throws_On_Empty_Input()
         {
-            using (var ms = new MemoryStream())
+            using(var ms = new MemoryStream())
             {
                 #region Arrange/Act
                 async Task create() => await PurchaseEntity.CreateFromStream(ms);
@@ -74,8 +72,8 @@ namespace UCLARound3.UnitTests.Domain.Entity
         [InlineData(SampleFileDataHeader + "abc123")]
         public async Task CreateFromStream_Throws_On_Invalid_Data(string data)
         {
-            using (var ms = new MemoryStream())
-            using (var sw = new StreamWriter(ms))
+            using(var ms = new MemoryStream())
+            using(var sw = new StreamWriter(ms))
             {
                 #region Arrange
                 await sw.WriteAsync(data);
@@ -96,8 +94,8 @@ namespace UCLARound3.UnitTests.Domain.Entity
         [Fact]
         public async Task CreateFromStream_Sets_All_Properties_Correctly_When_Data_Are_Uncorrupt()
         {
-            using (var ms = new MemoryStream())
-            using (var sw = new StreamWriter(ms))
+            using(var ms = new MemoryStream())
+            using(var sw = new StreamWriter(ms))
             {
                 #region Arrange
                 // trim off the last corrupted entry
@@ -122,8 +120,8 @@ namespace UCLARound3.UnitTests.Domain.Entity
         [Fact]
         public async Task CreateFromStream_Sets_All_Properties_Correctly_When_Some_Data_Are_Corrupt()
         {
-            using (var ms = new MemoryStream())
-            using (var sw = new StreamWriter(ms))
+            using(var ms = new MemoryStream())
+            using(var sw = new StreamWriter(ms))
             {
                 #region Arrange
                 await sw.WriteAsync(SampleFileData);
