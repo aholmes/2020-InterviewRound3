@@ -1,64 +1,88 @@
 @startuml
+package "Domain" as Domain {
+    class ProductKeys {
+        HashSet<ProductType> Keys
+        --
+        +AddKey(ProductType)
+    }
 
-'01232020Jamie
-'BEVGTTKYGDGJHGTFBNGDVZJGDIPXVS
-'CANFDNSKAVOUXSCGSYBHQYHNMDQOBL
-'FRZNQQNPSESCHIMIXOUHNAWLXRZEPT
-'BEVGZYUFGNIHDCZIPWLZJLPDSGNEAH
+    class PurchaseEntity {
+        DateTime Timestamp
+        string Customer
+        BarcodeValue[] Barcodes
+        --
+        {static} +Task<PurchaseEntity> CreateFromStream(Stream) <<async>>
+    }
+    note left
+    Timestamp is in the format MMDDYYYY
+        It is a char[8] in the file.
+    end note
 
-class ProductKeys {
-    HashSet<ProductType> Keys
-    --
-    +AddKey(ProductType productType)
+    class PurchaseAggregate {
+        PurchaseEntity Purchase
+        --
+        +PurchaseAggregate(PurchaseEntity) <<constructor>>
+        +UniqueId[] GetUniqueIds()
+        +IGrouping<string, BarcodeValue> GetMostCommonProductByType()
+        +ProductSubtype[] GetProductSubtypes(ProductType)
+    }
+
+    class "char[4]" as char4
+    class "char[6]" as char6
+    class "char[20]" as char20
+
+    ProductType <|-- char4
+    ProductSubtype <|-- char6
+    UniqueId <|-- char20
+    note left of ProductSubtype
+    Each of these char[] types is a string,
+        this is just to denote the size.
+    end note
+
+    class BarcodeValue {
+        ProductType ProductType
+        ProductSubtype ProductSubtype
+        UniqueId Id
+    }
+
+    BarcodeValue *-- ProductType : has
+    BarcodeValue *-- ProductSubtype : has
+    BarcodeValue *-- UniqueId : has
+
+    ProductKeys *-- ProductType : has many
+
+    PurchaseEntity *- BarcodeValue : has many
+
+    PurchaseAggregate *-- PurchaseEntity : has many
 }
 
-class PurchaseEntity {
-    DateTime Timestamp
-    string Customer
-    BarcodeValue[] Barcodes
-    --
-    {static} +Task<PurchaseEntity> CreateFromStream(Stream stream) <<async>>
-}
-note left
-Timestamp is in the format MMDDYYYY
-    It is a char[8] in the file.
-end note
-
-class PurchaseAggregate {
-    PurchaseEntity Purchase
-    --
-    +PurchaseAggregate(PurchaseEntity purchase) <<constructor>>
-    +UniqueId[] GetUniqueIds()
-    +IGrouping<string, BarcodeValue> GetMostCommonProductByType()
-    +ProductSubtype[] GetProductSubtypes(ProductType productType)
-}
-
-class "char[4]" as char4
-class "char[6]" as char6
-class "char[20]" as char20
-
-ProductType <|-- char4
-ProductSubtype <|-- char6
-UniqueId <|-- char20
-note right of ProductSubtype
-Each of these char[] types is a string,
-    this is just to denote the size.
-end note
-
-class BarcodeValue {
-    ProductType ProductType
-    ProductSubtype ProductSubtype
-    UniqueId Id
+package "Console Writing Visitor" as ConsoleWritingVisitor {
+    class ConsoleWritingVisitor {
+        +ConsoleWritingVisitor(IConsole) <<constructor>>
+        +void WriteLine(ConsoleWriter)
+    }
+    abstract class ConsoleWriter {
+        +virtual void Accept(ConsoleWritingVisitor)
+        +{abstract} string GetOutput()
+    }
+    class PurchaseSummary extends ConsoleWriter {
+        +PurchaseSummary(PurchaseEntity) <<constructor>>
+        +override string GetOutput()
+    }
+    class PurchaseDetail extends ConsoleWriter {
+        +PurchaseDetail(PurchaseEntity) <<constructor>>
+        +override string GetOutput()
+    }
+    class ProductDetail extends ConsoleWriter {
+        +ProductDetail(PurchaseEntity) <<constructor>>
+        +override string GetOutput()
+    }
 }
 
-BarcodeValue *-- ProductType : has
-BarcodeValue *-- ProductSubtype : has
-BarcodeValue *-- UniqueId : has
+interface IConsole {
+    +void WriteLine()
+    +void WriteLine(string)
+}
 
-ProductKeys *-- ProductType : has many
-
-PurchaseEntity *- BarcodeValue : has many
-
-PurchaseAggregate *-- PurchaseEntity : has many
-
+class ConsoleWrapper implements IConsole 
 @enduml
