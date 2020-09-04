@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using UCLARound3.Domain.Value;
 
@@ -23,7 +20,8 @@ namespace UCLARound3.Domain.Entity
             get => _barcodes;
             private set
             {
-                if (!value.Any()) throw new InvalidDataException("The purchase data does not contain any purchased products.");
+                if(!value.Any())
+                    throw new InvalidDataException("The purchase data does not contain any purchased products.");
                 _barcodes = value;
             }
         }
@@ -39,13 +37,15 @@ namespace UCLARound3.Domain.Entity
 
         public static async Task<PurchaseEntity> CreateFromStream(Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if(stream == null)
+                throw new ArgumentNullException(nameof(stream));
 
-            if (stream.Length == 0) throw new InvalidDataException("The stream cannot be empty.");
+            if(stream.Length == 0)
+                throw new InvalidDataException("The stream cannot be empty.");
 
             try
             {
-                using (var sr = new StreamReader(stream))
+                using(var sr = new StreamReader(stream))
                 {
                     var (timestamp, customer) = await ParseHeader(sr);
                     var products = await ParseProducts(sr);

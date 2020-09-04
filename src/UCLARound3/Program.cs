@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
-using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using UCLARound3.Domain;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
 using UCLARound3.Writer;
+#if !DEBUG
+using System.Xml.Serialization;
+#endif
 
 namespace UCLARound3
 {
@@ -27,7 +23,7 @@ namespace UCLARound3
 
                 PurchaseAggregate purchaseAggregate;
                 PurchaseEntity purchaseEntity;
-                using (var stream = GetOpenFileStream(purchaseFilename))
+                using(var stream = GetOpenFileStream(purchaseFilename))
                 {
                     purchaseEntity = await PurchaseEntity.CreateFromStream(stream);
                     purchaseAggregate = new PurchaseAggregate(purchaseEntity);
@@ -48,12 +44,14 @@ namespace UCLARound3
                     _console.WriteLine();
                 }
             }
-            catch(Exception e)
-            {
 #if DEBUG
+            catch(Exception)
+            {
                 throw;
 #else
-                string serializeException(Exception e, string accumulator)
+            catch(Exception e)
+            {
+                static string serializeException(Exception e, string accumulator)
                 {
                     var exceptionData = (e.Message, e.StackTrace);
                     var serializer = new XmlSerializer(exceptionData.GetType());
@@ -63,7 +61,8 @@ namespace UCLARound3
                         accumulator += sw.ToString() + "\n\n";
                     }
 
-                    if (e.InnerException != null) return serializeException(e.InnerException, accumulator);
+                    if(e.InnerException != null)
+                        return serializeException(e.InnerException, accumulator);
 
                     return accumulator;
                 };
@@ -81,7 +80,8 @@ namespace UCLARound3
 
         static Stream GetOpenFileStream(string filename)
         {
-            if (filename == null) throw new ArgumentNullException(nameof(filename));
+            if(filename == null)
+                throw new ArgumentNullException(nameof(filename));
 
 #if READ_FILE_FROM_DISK
             if (!File.Exists(filename)) throw new FileNotFoundException("File not found on disk.", filename);
@@ -93,7 +93,8 @@ namespace UCLARound3
             var fullFilename = $"{nameof(UCLARound3)}.{filename}";
             var assembly = Assembly.GetEntryAssembly();
 
-            if (!assembly.GetManifestResourceNames().Contains(fullFilename)) throw new FileNotFoundException("File not found in embedded resources.", fullFilename);
+            if(!assembly.GetManifestResourceNames().Contains(fullFilename))
+                throw new FileNotFoundException("File not found in embedded resources.", fullFilename);
 
             return assembly.GetManifestResourceStream(fullFilename);
 #endif
