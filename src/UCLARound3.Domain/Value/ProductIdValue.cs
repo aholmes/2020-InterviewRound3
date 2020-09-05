@@ -1,6 +1,7 @@
-﻿using UCLARound3.Domain.Value;
+﻿using System;
+using UCLARound3.Domain.Value;
 
-namespace UCLARound3.Domain
+namespace UCLARound3.Domain.Value
 {
     /// <summary>
     /// A 20-character unique product identifier.
@@ -14,7 +15,7 @@ namespace UCLARound3.Domain
         public ProductIdValue(string value)
             : base(value)
         {
-            // TODO validate length of input
+            if(value.Length != 20) throw new ArgumentException("A Product ID must be 20 characters long.", nameof(value));
         }
 
         public static implicit operator string(ProductIdValue obj) => obj.Value;

@@ -4,4 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS0660;CS0661</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Value\ProductTypeValue.*.cs">
+      <DependentUpon>Value\ProductTypeValue.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

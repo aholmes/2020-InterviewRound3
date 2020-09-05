@@ -3,6 +3,7 @@ using System.Linq;
 using UCLARound3.Domain;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
+using UCLARound3.Domain.Value;
 using Xunit;
 
 using static UCLARound3.UnitTests.Helpers.SampleDataGenerator;

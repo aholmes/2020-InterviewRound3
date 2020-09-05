@@ -122,9 +122,11 @@ namespace UCLARound3.Domain.Entity
             var products = new List<BarcodeValue>();
             await foreach(var (type, subtype, id) in ReadProductsFromStream(sr))
             {
+                var validatedType = ProductTypeValueKeys.GetValidProductTypeKey(type);
+                //if (ProductTypeKeys.Keys)
                 products.Add(new BarcodeValue
                 {
-                    ProductType = type,
+                    ProductType = validatedType,
                     ProductSubtype = subtype,
                     Id = id
                 });

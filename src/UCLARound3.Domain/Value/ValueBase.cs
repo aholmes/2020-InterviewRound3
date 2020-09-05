@@ -12,7 +12,7 @@ namespace UCLARound3.Domain.Value
         /// <summary>
         /// The value of the derived type.
         /// </summary>
-        protected readonly T Value;
+        protected T Value;
 
         /// <summary>
         /// Sets the value.

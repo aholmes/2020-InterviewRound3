@@ -92,6 +92,48 @@ namespace UCLARound3.UnitTests.Domain.Entity
         }
 
         [Fact]
+        public async Task CreateFromStream_Throws_When_ProductType_Is_Invalid()
+        {
+            using(var ms = new MemoryStream())
+            using(var sw = new StreamWriter(ms))
+            {
+                #region Arrange
+                await sw.WriteAsync(SampleFileData+"\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
+                await sw.FlushAsync();
+                ms.Position = 0;
+                #endregion
+
+                #region Act
+                async Task act() => await PurchaseEntity.CreateFromStream(ms);
+                #endregion
+
+                #region Assert
+                await Assert.ThrowsAsync<InvalidDataException>(act);
+                #endregion
+            }
+        }
+
+        [Fact]
+        public async Task CreateFromStream_Does_Not_Throw_When_ProductType_Is_Added_To_Product_Keys()
+        {
+            using(var ms = new MemoryStream())
+            using(var sw = new StreamWriter(ms))
+            {
+                #region Arrange
+                await sw.WriteAsync(SampleFileData+"\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
+                await sw.FlushAsync();
+                ms.Position = 0;
+
+                ProductTypeValueKeys.AddKey("XXXX");
+                #endregion
+
+                #region Act
+                await PurchaseEntity.CreateFromStream(ms);
+                #endregion
+            }
+        }
+
+        [Fact]
         public async Task CreateFromStream_Sets_All_Properties_Correctly_When_Data_Are_Uncorrupt()
         {
             using(var ms = new MemoryStream())

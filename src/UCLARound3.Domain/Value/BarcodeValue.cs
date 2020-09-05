@@ -10,7 +10,7 @@ namespace UCLARound3.Domain.Value
     {
         /// <summary>
         /// A 4-character product code.
-        /// Valid values can be found in <see cref="ProductKeys"/>.
+        /// Valid values can be found in <see cref="ProductTypeKeys"/>.
         /// </summary>
         public ProductTypeValue ProductType;
 

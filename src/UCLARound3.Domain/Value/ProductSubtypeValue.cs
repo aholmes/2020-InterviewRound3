@@ -1,6 +1,7 @@
-﻿using UCLARound3.Domain.Value;
+﻿using System;
+using UCLARound3.Domain.Value;
 
-namespace UCLARound3.Domain
+namespace UCLARound3.Domain.Value
 {
     /// <summary>
     /// A 6-character product subtype.
@@ -14,7 +15,7 @@ namespace UCLARound3.Domain
         public ProductSubtypeValue(string value)
             : base(value)
         {
-            // TODO validate length of input
+            if(value.Length != 6) throw new ArgumentException("A Product Subtype must be 6 characters long.", nameof(value));
         }
 
         public static implicit operator string(ProductSubtypeValue obj) => obj.Value;

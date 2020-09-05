@@ -1,6 +1,8 @@
-﻿using UCLARound3.Domain.Value;
+﻿using System;
+using System.Linq;
+using UCLARound3.Domain.Value;
 
-namespace UCLARound3.Domain
+namespace UCLARound3.Domain.Value
 {
     /// <summary>
     /// A 4-character product type.
@@ -14,7 +16,13 @@ namespace UCLARound3.Domain
         public ProductTypeValue(string value)
             : base(value)
         {
-            // TODO validate length of input
+            if(value.Length != 4) throw new ArgumentException("A Product Type must be 4 characters long.", nameof(value));
+
+            var key = ProductTypeValueKeys.GetValidProductTypeKey(value);
+            if (key != value)
+            {
+                Value = value;
+            }
         }
 
         public static implicit operator string(ProductTypeValue obj) => obj.Value;
