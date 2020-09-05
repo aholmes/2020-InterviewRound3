@@ -11,28 +11,24 @@ namespace UCLARound3.Domain.Value
     {
         private static BkTree KeysTree = new BkTree();
 
-        /// <summary>
-        /// The valid keys for all <see cref="ProductTypeValue"/>.
-        /// </summary>
-        //public static readonly HashSet<ProductTypeValue> Keys = new HashSet<ProductTypeValue>
-        public static readonly HashSet<string> Keys = new HashSet<string>
-        {
-            "BEVG",
-            "BAKE",
-            "CANF",
-            "CNSB",
-            "SNCN",
-            "DREG",
-            "FRZN",
-            "FRVG",
-            "GRPA",
-            "MTSF",
-            "MISC"
-        };
-
         static ProductTypeValueKeys()
         {
-            foreach(var key in Keys)
+            var prePopulatedKeys = new[]
+            {
+                "BEVG",
+                "BAKE",
+                "CANF",
+                "CNSB",
+                "SNCN",
+                "DREG",
+                "FRZN",
+                "FRVG",
+                "GRPA",
+                "MTSF",
+                "MISC"
+            };
+
+            foreach(var key in prePopulatedKeys)
             {
                 KeysTree.Add(key);
             }
@@ -45,10 +41,9 @@ namespace UCLARound3.Domain.Value
         /// <returns></returns>
         public static string GetValidProductTypeKey(string value)
         {
-            if(Keys.Contains(value)) return value;
-
             var result = KeysTree.Search(value, 1);
-            if(!result.Any()) throw new ArgumentException($"The value '{value}' is not one of the valid Product Type keys in `{nameof(ProductTypeValue)}.{nameof(Keys)}`.", nameof(value));
+            KeysTree.Add(value);
+            if(!result.Any()) throw new ArgumentException($"The value '{value}' is not one of the valid Product Type keys in `{nameof(ProductTypeValue)}.{nameof(KeysTree)}`.", nameof(value));
 
             return result.First();
         }
@@ -66,12 +61,12 @@ namespace UCLARound3.Domain.Value
         /// Add a new 4-character product type.
         /// </summary>
         /// <param name="productType"></param>
-        public static void AddKey(string productType) => Keys.Add(productType);
+        public static void AddKey(string productType) => KeysTree.Add(productType);
 
         /// <summary>
         /// Add a new 4-character product type.
         /// </summary>
         /// <param name="productType"></param>
-        public static void AddKey(ProductTypeValue productType) => Keys.Add(productType);
+        public static void AddKey(ProductTypeValue productType) => KeysTree.Add(productType);
     }
 }
