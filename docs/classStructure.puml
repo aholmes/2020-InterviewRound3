@@ -1,10 +1,13 @@
 @startuml
 package "Domain" as Domain {
-    class ProductKeys {
-        HashSet<ProductType> Keys
-        --
+    class ProductTypeValueKeys {
+        +List<string> SearchValidProductTypeKey(string, int = 1)
+        +AddKey(string)
         +AddKey(ProductType)
     }
+    note top
+    ProductTypeValueKeys uses a BK Tree to store Product Type keys
+    end note
 
     class PurchaseEntity {
         DateTime Timestamp
@@ -49,7 +52,7 @@ package "Domain" as Domain {
     BarcodeValue *-- ProductSubtype : has
     BarcodeValue *-- UniqueId : has
 
-    ProductKeys *-- ProductType : has many
+    ProductTypeValueKeys *-- ProductType : has many
 
     PurchaseEntity *- BarcodeValue : has many
 
@@ -57,7 +60,11 @@ package "Domain" as Domain {
 }
 
 package "Console Writing Visitor" as ConsoleWritingVisitor {
-    class ConsoleWritingVisitor {
+    interface IVisitor<T> {
+        +void Visit(T dispatcher)
+    }
+    class ConsoleWritingVisitor implements IVisitor {
+        +T ConsoleWriter
         +ConsoleWritingVisitor(IConsole) <<constructor>>
         +void WriteLine(ConsoleWriter)
     }
@@ -80,8 +87,13 @@ package "Console Writing Visitor" as ConsoleWritingVisitor {
 }
 
 interface IConsole {
+    +void Write(string)
     +void WriteLine()
     +void WriteLine(string)
+    +ConsoleKeyInfo ReadKey()
+    +int Read()
+    +string ReadLine()
+
 }
 
 class ConsoleWrapper implements IConsole 
