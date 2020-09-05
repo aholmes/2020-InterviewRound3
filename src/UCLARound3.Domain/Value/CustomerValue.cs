@@ -16,9 +16,9 @@ namespace UCLARound3.Domain.Value
         {
         }
 
-        public static implicit operator string(CustomerValue obj) => obj.Value;
+        public static implicit operator string(CustomerValue obj) => obj?.Value;
         public static implicit operator CustomerValue(string obj) => new CustomerValue(obj);
-        public static bool operator ==(CustomerValue a, CustomerValue b) => a.Value == b.Value;
-        public static bool operator !=(CustomerValue a, CustomerValue b) => a.Value != b.Value;
+        public static bool operator ==(CustomerValue a, CustomerValue b) => a?.Value == b?.Value;
+        public static bool operator !=(CustomerValue a, CustomerValue b) => a?.Value != b?.Value;
     }
 }

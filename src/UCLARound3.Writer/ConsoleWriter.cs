@@ -1,13 +1,19 @@
 ﻿using System;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
+using UCLARound3.Domain.Value;
 
 namespace UCLARound3.Writer
 {
+    public interface IVisitor<T>
+    {
+        public void Visit(T dispatcher);
+    }
+
     /// <summary>
     /// A <see cref="ConsoleWriter"/> visitor.
     /// </summary>
-    public class ConsoleWritingVisitor
+    public class ConsoleWritingVisitor: IVisitor<ConsoleWriter>
     {
         private IConsole _console;
 
@@ -45,7 +51,7 @@ namespace UCLARound3.Writer
         /// Dispatch to the visitor.
         /// </summary>
         /// <param name="visitor"></param>
-        public virtual void Accept(ConsoleWritingVisitor visitor)
+        public virtual void Accept(IVisitor<ConsoleWriter> visitor)
         {
             if(visitor == null)
                 throw new ArgumentNullException(nameof(visitor));
@@ -84,9 +90,9 @@ namespace UCLARound3.Writer
         /// </summary>
         /// <returns></returns>
         public override string GetOutput()
-            => $@"Customer: {_purchaseEntity.Customer}
-Date: {_purchaseEntity.Timestamp}
-Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
+            => $@"a) Customer: {_purchaseEntity.Customer}
+b) Date: {_purchaseEntity.Timestamp}
+c) Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
     }
 
     /// <summary>
@@ -116,10 +122,10 @@ Total Items Purchased: {_purchaseEntity.Barcodes.Count}";
         {
             var uniqueIds = _purchaseAggregate.GetUniqueIds();
             var commonProductsByType = _purchaseAggregate.GetMostCommonProductByType();
-            return $@"The number of unique items purchased: {uniqueIds.Count}
-The unique IDs that were purchased:
-{"\t" + string.Join("\n\t", uniqueIds)}
-The most common product type purchased: {commonProductsByType.Key}";
+            return $@"a) The number of unique items purchased: {uniqueIds.Count}
+    The unique IDs that were purchased:
+    {string.Join("\n    ", uniqueIds)}
+b) The most common product type purchased: {commonProductsByType.Key}";
         }
     }
 
@@ -129,6 +135,7 @@ The most common product type purchased: {commonProductsByType.Key}";
     public class ProductDetail: ConsoleWriter
     {
         private readonly PurchaseAggregate _purchaseAggregate;
+        private readonly ProductTypeValue _productType;
 
         /// <summary>
         /// Get a new instance.
@@ -142,15 +149,22 @@ The most common product type purchased: {commonProductsByType.Key}";
             _purchaseAggregate = purchaseAggregate;
         }
 
+        public ProductDetail(PurchaseAggregate purchaseAggregate, ProductTypeValue productType)
+            : this(purchaseAggregate)
+        {
+            _productType = productType;
+        }
+
         /// <summary>
         /// Details the subtypes for the most common product type purchased.
         /// </summary>
         /// <returns></returns>
         public override string GetOutput()
         {
-            var commonProductsByType = _purchaseAggregate.GetMostCommonProductByType();
-            return $@"Subtypes for product type {commonProductsByType.Key}:
-{"\t" + string.Join("\n\t", _purchaseAggregate.GetProductSubtypes(commonProductsByType.Key))}";
+            var productType = _productType ?? _purchaseAggregate.GetMostCommonProductByType().Key;
+
+            return $@"a) Subtypes for product type {productType}:
+    {string.Join("\n    ", _purchaseAggregate.GetProductSubtypes(productType))}";
         }
     }
 }

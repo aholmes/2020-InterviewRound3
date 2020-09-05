@@ -18,9 +18,9 @@ namespace UCLARound3.Domain.Value
             if(value.Length != 6) throw new ArgumentException("A Product Subtype must be 6 characters long.", nameof(value));
         }
 
-        public static implicit operator string(ProductSubtypeValue obj) => obj.Value;
+        public static implicit operator string(ProductSubtypeValue obj) => obj?.Value;
         public static implicit operator ProductSubtypeValue(string obj) => new ProductSubtypeValue(obj);
-        public static bool operator ==(ProductSubtypeValue a, ProductSubtypeValue b) => a.Value == b.Value;
-        public static bool operator !=(ProductSubtypeValue a, ProductSubtypeValue b) => a.Value != b.Value;
+        public static bool operator ==(ProductSubtypeValue a, ProductSubtypeValue b) => a?.Value == b?.Value;
+        public static bool operator !=(ProductSubtypeValue a, ProductSubtypeValue b) => a?.Value != b?.Value;
     }
 }

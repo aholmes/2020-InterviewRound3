@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using UCLARound3.Domain.Aggregate;
 using UCLARound3.Domain.Entity;
+using UCLARound3.Domain.Value;
 using UCLARound3.Writer;
 #if !DEBUG
 using System.Xml.Serialization;
@@ -15,34 +17,84 @@ namespace UCLARound3
     class Program
     {
         private static IConsole _console = new ConsoleWrapper();
+        private static IVisitor<ConsoleWriter> _visitor = new ConsoleWritingVisitor(_console);
+
         static async Task Main(string[] args)
         {
             try
             {
                 var purchaseFilename = args.Length > 0 ? args[0] : "CustomerG.txt";
 
-                PurchaseAggregate purchaseAggregate;
-                PurchaseEntity purchaseEntity;
-                using(var stream = GetOpenFileStream(purchaseFilename))
-                {
-                    purchaseEntity = await PurchaseEntity.CreateFromStream(stream);
-                    purchaseAggregate = new PurchaseAggregate(purchaseEntity);
-                }
+                var (purchaseAggregate, purchaseEntity)
+                    = await GetPurchaseInformation(purchaseFilename);
 
-                var consoleWritingVisitor = new ConsoleWritingVisitor(_console);
+                _console.WriteLine("Question 1 solution:\n");
+                WriteInformation(purchaseEntity);
+                _console.WriteLine();
 
-                var writers = new ConsoleWriter[]
-                {
-                    new PurchaseSummary(purchaseEntity),
-                    new PurchaseDetail(purchaseAggregate),
-                    new ProductDetail(purchaseAggregate)
-                };
+                _console.WriteLine("Question 2 part 1 solution:\n");
+                WriteInformation(purchaseAggregate);
+                _console.WriteLine();
 
-                foreach(var writer in writers)
+
+                _console.WriteLine("Question 2 part 2 solution:\n");
+                bool exit = false;
+                bool skip = false;
+                while(!exit)
                 {
-                    writer.Accept(consoleWritingVisitor);
+                    _console.WriteLine("Input a 4-character Product Type to list Subtypes in this Purchase.");
+                    _console.WriteLine("Press Enter to stop searching.");
+                    _console.Write(" > ");
+
+                    const int ProductTypeStringLength = 4;
+                    char nextChar;
+                    var searchProductType = new char[ProductTypeStringLength];
+                    var searchProductTypeIndex = 0;
+                    List<string> matches = null;
+                    do
+                    {
+                        nextChar = _console.ReadKey().KeyChar;
+                        if(nextChar == 10 || nextChar == 13)
+                        {
+                            exit = true;
+                            break;
+                        }
+                        searchProductType[searchProductTypeIndex] = char.ToUpper(nextChar);
+
+                        matches = ProductTypeValueKeys.SearchValidProductTypeKey(new string(searchProductType), searchProductType.Length - searchProductTypeIndex);
+                        if(!matches.Any())
+                        {
+                            _console.WriteLine($"\rNo Product Types match '{new string(searchProductType)}'");
+                            nextChar = '\0';
+                            searchProductType = new char[ProductTypeStringLength];
+                            searchProductTypeIndex = 0;
+                            matches = null;
+                            skip = true;
+                            break;
+                        }
+
+                        _console.WriteLine("\r - Possible matches: ");
+                        foreach(var match in matches)
+                        {
+                            _console.WriteLine("\t" + match);
+                        }
+                        _console.Write($" > {new string(searchProductType)}");
+                    } while(++searchProductTypeIndex < searchProductType.Length);
+
+                    if(exit) break;
+                    if(skip)
+                    {
+                        skip = false;
+                        continue;
+                    }
+
                     _console.WriteLine();
-                }
+                    _console.WriteLine($"\nSearching for best match '{matches[0]}'\n");
+
+                    WriteInformation(purchaseAggregate, matches[0]);
+
+                    _console.WriteLine();
+                };
             }
 #if DEBUG
             catch(Exception)
@@ -67,23 +119,43 @@ namespace UCLARound3
                     return accumulator;
                 };
 
-                Console.WriteLine($"\nSomething bad happened: {e.Message}");
-                Console.WriteLine("\nDebug output follows.\n\n");
+                _console.WriteLine($"\nSomething bad happened: {e.Message}");
+                _console.WriteLine("\nDebug output follows.\n\n");
 
-                Console.WriteLine(serializeException(e, ""));
+                _console.WriteLine(serializeException(e, ""));
 #endif
             }
 
-            Console.WriteLine("\n\nPress enter to exit.");
-            Console.ReadLine();
+            _console.WriteLine("\n\nPress enter to exit.");
+            _console.ReadLine();
         }
+
+        private static async Task<(PurchaseAggregate, PurchaseEntity)> GetPurchaseInformation(string filename)
+        {
+            using var stream = GetOpenFileStream(filename);
+            var purchaseEntity = await PurchaseEntity.CreateFromStream(stream);
+            var purchaseAggregate = new PurchaseAggregate(purchaseEntity);
+            return (purchaseAggregate, purchaseEntity);
+        }
+
+        private static void WriteInformation(PurchaseEntity purchaseEntity)
+            => new PurchaseSummary(purchaseEntity)
+                .Accept(_visitor);
+
+        private static void WriteInformation(PurchaseAggregate purchaseAggregate)
+            => new PurchaseDetail(purchaseAggregate)
+                .Accept(_visitor);
+
+        private static void WriteInformation(PurchaseAggregate purchaseAggregate, ProductTypeValue productType)
+            => new ProductDetail(purchaseAggregate, productType)
+                .Accept(_visitor);
 
         /// <summary>
         /// Open the given filename and return a <see cref="Stream"/> for reading.
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        static Stream GetOpenFileStream(string filename)
+        private static Stream GetOpenFileStream(string filename)
         {
             if(filename == null)
                 throw new ArgumentNullException(nameof(filename));

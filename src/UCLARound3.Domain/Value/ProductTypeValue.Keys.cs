@@ -54,6 +54,15 @@ namespace UCLARound3.Domain.Value
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="distanceTolerance"></param>
+        /// <returns></returns>
+        public static List<string> SearchValidProductTypeKey(string value, int distanceTolerance = 1)
+            => KeysTree.Search(value, distanceTolerance);
+
+        /// <summary>
         /// Add a new 4-character product type.
         /// </summary>
         /// <param name="productType"></param>

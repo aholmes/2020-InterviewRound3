@@ -30,7 +30,7 @@ namespace UCLARound3.Domain.Value
         /// <returns></returns>
         public override bool Equals(object obj)
             => (obj as ValueBase<T>)?.Value?.Equals(Value) ?? false;
-        public override int GetHashCode() => Value.GetHashCode();
-        public override string ToString() => Value.ToString();
+        public override int GetHashCode() => (int)Value?.GetHashCode();
+        public override string ToString() => Value?.ToString();
     }
 }

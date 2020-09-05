@@ -6,11 +6,11 @@ using System.Text;
 namespace UCLARound3.Domain
 {
     /// <summary>
-    /// A BK Tree for searching closely matching strings withing a specified tolerance.
+    /// A BK Tree for searching closely matching strings within a specified tolerance.
     /// </summary>
     /// <remarks>
     /// These articles were referenced to write the BK Tree below.
-    /// No code  has been copied.
+    /// No code has been copied.
     /// https://en.wikipedia.org/wiki/Levenshtein_distance
     /// https://www.csharpstar.com/csharp-string-distance-algorithm
     /// https://www.geeksforgeeks.org/bk-tree-introduction-implementation/

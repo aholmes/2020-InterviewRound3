@@ -25,9 +25,9 @@ namespace UCLARound3.Domain.Value
             }
         }
 
-        public static implicit operator string(ProductTypeValue obj) => obj.Value;
+        public static implicit operator string(ProductTypeValue obj) => obj?.Value;
         public static implicit operator ProductTypeValue(string obj) => new ProductTypeValue(obj);
-        public static bool operator ==(ProductTypeValue a, ProductTypeValue b) => a.Value == b.Value;
-        public static bool operator !=(ProductTypeValue a, ProductTypeValue b) => a.Value != b.Value;
+        public static bool operator ==(ProductTypeValue a, ProductTypeValue b) => a?.Value == b?.Value;
+        public static bool operator !=(ProductTypeValue a, ProductTypeValue b) => a?.Value != b?.Value;
     }
 }
