@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UCLARound3.Domain\InterviewRound3.Domain.csproj" />
-    <ProjectReference Include="..\UCLARound3.Writer\InterviewRound3.Writer.csproj" />
+    <ProjectReference Include="..\InterviewRound3.Domain\InterviewRound3.Domain.csproj" />
+    <ProjectReference Include="..\InterviewRound3.Writer\InterviewRound3.Writer.csproj" />
   </ItemGroup>
 
 </Project>

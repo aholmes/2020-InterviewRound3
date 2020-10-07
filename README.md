@@ -1,4 +1,4 @@
-# UCLA Health Round 3 Interview Assignment
+# Round 3 Interview Assignment
 
 ## Intro
 
