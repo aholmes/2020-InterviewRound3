@@ -54,12 +54,21 @@ namespace UCLARound3
                     do
                     {
                         nextChar = _console.ReadKey().KeyChar;
-                        if(nextChar == 10 || nextChar == 13)
+                        if(nextChar == 10 || nextChar == 13) // \r or \n
                         {
                             exit = true;
                             break;
                         }
-                        searchProductType[searchProductTypeIndex] = char.ToUpper(nextChar);
+
+                        if(nextChar == 8 && searchProductTypeIndex != 0) // \b (backspace)
+                        {
+                            searchProductType[--searchProductTypeIndex] = '\0';
+                            --searchProductTypeIndex;
+                        }
+                        else
+                        {
+                            searchProductType[searchProductTypeIndex] = char.ToUpper(nextChar);
+                        }
 
                         matches = ProductTypeValueKeys.SearchValidProductTypeKey(new string(searchProductType), searchProductType.Length - searchProductTypeIndex);
                         if(!matches.Any())
