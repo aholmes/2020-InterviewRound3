@@ -11,6 +11,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewRound3.Domain", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InterviewRound3.Writer", "src\InterviewRound3.Writer\InterviewRound3.Writer.csproj", "{A80EACD5-90CD-49AA-8C90-8D4899905181}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{85D694B1-74AC-43B7-8905-6AB1B963C516}"
+	ProjectSection(SolutionItems) = preProject
+		docs\classStructure.puml = docs\classStructure.puml
+		docs\classStructure.svg = docs\classStructure.svg
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+		docs\TECHNOLOGY.md = docs\TECHNOLOGY.md
+		docs\THEORY.md = docs\THEORY.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
