@@ -9,12 +9,24 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="CustomerG.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CustomerG.txt" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;READ_FILE_FROM_DISK</DefineConstants>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(DefineConstants.Contains('READ_FILE_FROM_DISK'))">
+      <ItemGroup>
+        <EmbeddedResource Include="CustomerG.txt">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </EmbeddedResource>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <EmbeddedResource Include="CustomerG.txt" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\InterviewRound3.Domain\InterviewRound3.Domain.csproj" />
