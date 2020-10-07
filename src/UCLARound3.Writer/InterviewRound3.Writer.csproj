@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UCLARound3.Domain\UCLARound3.Domain.csproj" />
+    <ProjectReference Include="..\UCLARound3.Domain\InterviewRound3.Domain.csproj" />
   </ItemGroup>
 
 </Project>

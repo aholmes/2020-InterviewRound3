@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UCLARound3.Domain
+namespace InterviewRound3.Domain
 {
     /// <summary>
     /// A BK Tree for searching closely matching strings within a specified tolerance.
@@ -65,9 +65,7 @@ namespace UCLARound3.Domain
                 var maxDistance = (long)currentDistance + distanceTolerance;
 
                 if(currentDistance <= distanceTolerance)
-                {
                     result.Add(node.Value);
-                }
 
                 var edges = node.Edges.Where(edge => minDistance <= edge && edge <= maxDistance);
                 foreach(var edge in edges)

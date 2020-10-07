@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UCLARound3.Writer
+namespace InterviewRound3.Writer
 {
     /// <summary>
     /// Wraps System.Console

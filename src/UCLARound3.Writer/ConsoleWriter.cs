@@ -1,9 +1,9 @@
-﻿using System;
-using UCLARound3.Domain.Aggregate;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
+﻿using InterviewRound3.Domain.Aggregate;
+using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using System;
 
-namespace UCLARound3.Writer
+namespace InterviewRound3.Writer
 {
     public interface IVisitor<T>
     {

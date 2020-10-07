@@ -1,7 +1,6 @@
 ﻿using System;
-using UCLARound3.Domain.Value;
 
-namespace UCLARound3.Domain.Value
+namespace InterviewRound3.Domain.Value
 {
     /// <summary>
     /// A 6-character product subtype.

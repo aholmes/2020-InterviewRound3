@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UCLARound3.Domain.Value
+namespace InterviewRound3.Domain.Value
 {
     /// <summary>
     /// A set of all valid product keys for <see cref="ProductTypeValue"/>.

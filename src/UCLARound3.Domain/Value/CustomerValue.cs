@@ -1,6 +1,4 @@
-﻿using UCLARound3.Domain.Value;
-
-namespace UCLARound3.Domain.Value
+﻿namespace InterviewRound3.Domain.Value
 {
     /// <summary>
     /// A customer who made a purchase.

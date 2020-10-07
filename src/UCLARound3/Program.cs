@@ -1,18 +1,18 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Aggregate;
+using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using InterviewRound3.Writer;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using UCLARound3.Domain.Aggregate;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
-using UCLARound3.Writer;
 #if !DEBUG
 using System.Xml.Serialization;
 #endif
 
-namespace UCLARound3
+namespace InterviewRound3
 {
     class Program
     {
@@ -38,8 +38,8 @@ namespace UCLARound3
 
 
                 _console.WriteLine("Question 2 part 2 solution:\n");
-                bool exit = false;
-                bool skip = false;
+                var exit = false;
+                var skip = false;
                 while(!exit)
                 {
                     _console.WriteLine("Input a 4-character Product Type to list Subtypes in this Purchase.");
@@ -176,7 +176,7 @@ namespace UCLARound3
 #else
             // This would ideally return a file stream,
             // but I embedded the file for portability
-            var fullFilename = $"{nameof(UCLARound3)}.{filename}";
+            var fullFilename = $"{nameof(InterviewRound3)}.{filename}";
             var assembly = Assembly.GetEntryAssembly();
 
             if(!assembly.GetManifestResourceNames().Contains(fullFilename))

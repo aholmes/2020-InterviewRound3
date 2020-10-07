@@ -1,8 +1,9 @@
 ﻿using System;
-namespace UCLARound3.Writer
+
+namespace InterviewRound3.Writer
 {
     /// <summary>
-    /// An interface for mocking <see cref="System.Console"/>
+    /// An interface for mocking <see cref="Console"/>
     /// </summary>
     public interface IConsole
     {

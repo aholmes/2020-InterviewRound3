@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace UCLARound3.Domain.Value
+namespace InterviewRound3.Domain.Value
 {
     /// <summary>
     /// Information for a barcode

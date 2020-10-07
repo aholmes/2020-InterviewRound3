@@ -1,14 +1,14 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Value;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using UCLARound3.Domain.Value;
 
-[assembly: InternalsVisibleTo("UCLARound3.UnitTests")]
-namespace UCLARound3.Domain.Entity
+[assembly: InternalsVisibleTo("InterviewRound3.UnitTests")]
+namespace InterviewRound3.Domain.Entity
 {
     /// <summary>
     /// A record of a purchase containing the time of purchase,

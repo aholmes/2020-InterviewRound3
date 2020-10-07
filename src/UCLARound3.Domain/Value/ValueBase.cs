@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace UCLARound3.Domain.Value
+namespace InterviewRound3.Domain.Value
 {
     /// <summary>
     /// A base type for consolidating domain value-type methods.

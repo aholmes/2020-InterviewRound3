@@ -1,9 +1,9 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using System;
 using System.Collections.Generic;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
 
-namespace UCLARound3.UnitTests.Helpers
+namespace InterviewRound3.UnitTests.Helpers
 {
     public static class SampleDataGenerator
     {

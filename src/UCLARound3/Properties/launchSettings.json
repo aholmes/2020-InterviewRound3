@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "UCLARound3": {
+    "InterviewRound3": {
       "commandName": "Project",
       "commandLineArgs": "CustomerG.txt"
     }

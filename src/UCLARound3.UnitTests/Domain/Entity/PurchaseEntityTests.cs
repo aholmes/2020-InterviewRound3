@@ -1,15 +1,15 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using InterviewRound3.UnitTests.Helpers;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
-using UCLARound3.UnitTests.Helpers;
 using Xunit;
 
-using static UCLARound3.UnitTests.Helpers.SampleDataGenerator;
+using static InterviewRound3.UnitTests.Helpers.SampleDataGenerator;
 
-namespace UCLARound3.UnitTests.Domain.Entity
+namespace InterviewRound3.UnitTests.Domain.Entity
 {
     public class PurchaseEntityTests
     {
@@ -98,7 +98,7 @@ namespace UCLARound3.UnitTests.Domain.Entity
             using(var sw = new StreamWriter(ms))
             {
                 #region Arrange
-                await sw.WriteAsync(SampleFileData+"\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
+                await sw.WriteAsync(SampleFileData + "\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
                 await sw.FlushAsync();
                 ms.Position = 0;
                 #endregion
@@ -120,7 +120,7 @@ namespace UCLARound3.UnitTests.Domain.Entity
             using(var sw = new StreamWriter(ms))
             {
                 #region Arrange
-                await sw.WriteAsync(SampleFileData+"\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
+                await sw.WriteAsync(SampleFileData + "\nXXXXYYYYYYZZZZZZZZZZZZZZZZZZZZ");
                 await sw.FlushAsync();
                 ms.Position = 0;
 

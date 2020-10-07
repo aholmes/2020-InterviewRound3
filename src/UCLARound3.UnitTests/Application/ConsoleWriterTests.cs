@@ -1,11 +1,11 @@
-﻿using Moq;
+﻿using InterviewRound3.Writer;
+using Moq;
 using System;
 using System.Reflection;
-using UCLARound3.UnitTests.Helpers;
-using UCLARound3.Writer;
+using InterviewRound3.UnitTests.Helpers;
 using Xunit;
 
-namespace UCLARound3.UnitTests.Application
+namespace InterviewRound3.UnitTests.Application
 {
     public class ConsoleWriterTests
     {

@@ -2,7 +2,7 @@
 using AutoFixture.AutoMoq;
 using AutoFixture.Xunit2;
 
-namespace UCLARound3.UnitTests.Helpers
+namespace InterviewRound3.UnitTests.Helpers
 {
     /// <summary>
     /// https://blog.ploeh.dk/2010/10/08/AutoDataTheorieswithAutoFixture/

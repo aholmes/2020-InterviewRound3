@@ -1,10 +1,10 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
 
-namespace UCLARound3.Domain.Aggregate
+namespace InterviewRound3.Domain.Aggregate
 {
     /// <summary>
     /// Aggregation methods for a <see cref="PurchaseEntity"/>.
@@ -48,7 +48,7 @@ namespace UCLARound3.Domain.Aggregate
             var productTypeCounts = new Dictionary<(ProductTypeValue productType, BarcodeValue barcode), int>();
             foreach(var barcode in _purchase.Barcodes)
             {
-                productTypeCounts.TryGetValue((barcode.ProductType, barcode), out int productTypeCount);
+                productTypeCounts.TryGetValue((barcode.ProductType, barcode), out var productTypeCount);
                 productTypeCounts[(barcode.ProductType, barcode)] = productTypeCount + 1;
             }
 

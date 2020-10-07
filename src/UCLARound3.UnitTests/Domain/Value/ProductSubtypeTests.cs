@@ -1,13 +1,13 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Value;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
-using UCLARound3.UnitTests.Helpers;
+using InterviewRound3.Domain.Entity;
+using InterviewRound3.UnitTests.Helpers;
 using Xunit;
 
-namespace UCLARound3.UnitTests.Domain.Value
+namespace InterviewRound3.UnitTests.Domain.Value
 {
     public class ProductSubtypeTests
     {

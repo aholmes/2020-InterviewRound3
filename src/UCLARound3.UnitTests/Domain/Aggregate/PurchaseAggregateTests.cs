@@ -1,14 +1,14 @@
-﻿using System;
+﻿using InterviewRound3.Domain.Aggregate;
+using InterviewRound3.Domain.Entity;
+using InterviewRound3.Domain.Value;
+using System;
 using System.Linq;
-using UCLARound3.Domain;
-using UCLARound3.Domain.Aggregate;
-using UCLARound3.Domain.Entity;
-using UCLARound3.Domain.Value;
+using InterviewRound3.Domain;
 using Xunit;
 
-using static UCLARound3.UnitTests.Helpers.SampleDataGenerator;
+using static InterviewRound3.UnitTests.Helpers.SampleDataGenerator;
 
-namespace UCLARound3.UnitTests.Domain.Aggregate
+namespace InterviewRound3.UnitTests.Domain.Aggregate
 {
     public class PurchaseAggregateTests
     {

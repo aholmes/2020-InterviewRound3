@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using InterviewRound3.Domain.Value;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using UCLARound3.Domain.Value;
 
-namespace UCLARound3.UnitTests.Helpers
+namespace InterviewRound3.UnitTests.Helpers
 {
     /// <summary>
     /// Used to simplify equality assertions for <see cref="BarcodeValue"/> instances.
